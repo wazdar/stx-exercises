@@ -11,7 +11,8 @@ disable="""
     import-outside-toplevel,
     fixme,
     missing-module-docstring,
-    missing-class-docstring
+    missing-class-docstring,
+    too-many-ancestors
 """
 
 [tool.pylint.REPORTS]

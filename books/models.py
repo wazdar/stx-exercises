@@ -2,13 +2,16 @@ from django.db import models
 
 
 class Book(models.Model):
-    title = models.CharField(max_length=256)
+    title = models.CharField(max_length=254)
     author = models.ManyToManyField("Author")
     publication_date = models.DateField()
     isbn = models.OneToOneField("Isbn", on_delete=models.CASCADE)
     page_count = models.IntegerField()
     lang = models.CharField(max_length=2)
     thumbnail = models.URLField()
+
+    class Meta:
+        ordering = ["-id"]
 
 
 class Author(models.Model):

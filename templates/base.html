@@ -1,0 +1,17 @@
+{% load static %}
+<html lang="en">
+<head>
+    <title>BooksList - {% block title %}{% endblock %}</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'img/favicon.png' %}"/>
+    <link rel="icon" type="image/x-icon" href="{% static 'img/favicon.png' %}"/>
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+</head>
+<body>
+<div class="container">
+    {% block content %}
+
+    {% endblock %}
+</div>
+</body>
+</html>

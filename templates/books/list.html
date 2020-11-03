@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+    <div class="card m-2s border-0">
+        <div class="card-body">
+            <button class="btn btn-lg btn-success float-right shadow">ADD</button>
+        </div>
+    </div>
+    {% for book in books %}
+        <div class="card shadow mb-3">
+            <div class="card-body">
+                <div class="d-flex flex-column">
+                    <div>
+                        <h4 class="card-title">{{ book.title }}</h4>
+                    </div>
+                    <div class="d-flex flex-row">
+                        <div class="mx-2 col-lg-1">
+                            <img class="img-thumbnail" width="50px"
+                                 src="{{ book.thumbnail }}">
+                        </div>
+                        <div class="col-lg-2 my-auto">
+                            {% for author in book.author.all %}
+                                <h5 class="card-subtitle">{{ author }}</h5>
+                            {% endfor %}
+                        </div>
+                        <div class="col-lg-3 my-auto d-flex flex-column">
+                            <span><b>Lang:</b> {{ book.lang }}</span>
+                            <span><b>Page Count:</b> {{ book.page_count }}</span>
+                            <span><b>Publication date:</b> {{ book.publication_date|date:"M d, Y"  }}</span>
+                        </div>
+                        <div class="col-lg-3 my-auto d-flex flex-column ">
+                            <span><b>ISBN-10:</b> {{ book.isbn.isbn10 }}</span>
+                            <span><b>ISBN-13:</b> {{ book.isbn.isbn13 }}</span>
+                        </div>
+                        <div class="offset-2 col-lg-1">
+                            <button class="btn btn-sm btn-warning shadow">Edit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <h3>No data.</h3>
+    {% endfor %}
+
+    <div class="d-flex justify-content-center">
+        {% include 'pagination.html' %}
+    </div>
+
+{% endblock %}
