@@ -9,7 +9,9 @@ disable="""
     unused-argument,
     no-self-use,
     import-outside-toplevel,
-    fixme
+    fixme,
+    missing-module-docstring,
+    missing-class-docstring
 """
 
 [tool.pylint.REPORTS]
