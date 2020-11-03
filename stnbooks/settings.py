@@ -9,22 +9,31 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-
-from pathlib import Path
 import os
+import sys
+from pathlib import Path
+
+import dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# env loader
+dotenv_file = os.path.join(BASE_DIR, ".env")
+if os.path.isfile(dotenv_file):
+    dotenv.load_dotenv(dotenv_file)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "n4nu390hdsd6fna4q^q4wtulwf93m79fm*lv!$+samt(*5u7iv"
+try:
+    SECRET_KEY = os.environ["SECRET_KEY"]
+    DEBUG = os.environ["DEBUG"]
+except KeyError as e:
+    print(f"Check you .env file.{e} not found.")
+    sys.exit()
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 ALLOWED_HOSTS = []
 
