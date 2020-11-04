@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block title %}Form{% endblock %}
+
+{% block content %}
+    <div class="card m-2s border-0">
+        <div class="card-body">
+            <a href="{% url 'book-list' %}">
+                <button
+                        class="btn btn-lg btn-success float-right shadow"
+                >BACK
+                </button>
+            </a>
+        </div>
+    </div>
+    {% if error %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="title">Title</label>
+            {{ form.title }}
+        </div>
+        <div class="form-group">
+            <label for="author">Author:</label>
+            {{ form.author }}
+            {% for error in form.author.errors %}
+                <small class="form-text text-danger">{{ error }}</small>
+            {% endfor %}
+            <small id="title" class="form-text text-muted">If there is more than one, separate them with commas.</small>
+        </div>
+        <div class="form-group">
+            <label for="author">Publication date:</label>
+            {{ form.publication_date }}
+            {% for error in form.publication_date.errors %}
+                <small class="form-text text-danger">{{ error }}</small>
+            {% endfor %}
+        </div>
+        <div class="form-group">
+            <label for="author">ISBN 10:</label>
+            {{ form.isbn10 }}
+            {% for error in form.isbn10.errors %}
+                <small class="form-text text-danger">{{ error }}</small>
+            {% endfor %}
+        </div>
+        <div class="form-group">
+            <label for="author">ISBN 10:</label>
+            {{ form.isbn13 }}
+            {% for error in form.isbn13.errors %}
+                <small class="form-text text-danger">{{ error }}</small>
+            {% endfor %}
+        </div>
+        <div class="form-group">
+            <label for="author">Page count:</label>
+            {{ form.page_count }}
+            {% for error in form.page_count.errors %}
+                <small class="form-text text-danger">{{ error }}</small>
+            {% endfor %}
+        </div>
+        <div class="form-group">
+            <label for="author">Lang:</label>
+            {{ form.lang }}
+            {% for error in form.lang.errors %}
+                <small class="form-text text-danger">{{ error }}</small>
+            {% endfor %}
+        </div>
+        <div class="form-group">
+            <label for="author">Thumbnail:</label>
+            {{ form.thumbnail }}
+            {% for error in form.thumbnail.error %}
+                <small class="form-text text-danger">{{ error }}</small>
+            {% endfor %}
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+{% endblock %}

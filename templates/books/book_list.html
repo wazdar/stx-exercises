@@ -4,7 +4,11 @@
 {% block content %}
     <div class="card m-2s border-0">
         <div class="card-body">
-            <button class="btn btn-lg btn-success float-right shadow">ADD</button>
+            <a href="{% url 'book-add' %}">
+                            <button
+                    class="btn btn-lg btn-success float-right shadow"
+            >ADD</button>
+            </a>
         </div>
     </div>
     {% for book in books %}
@@ -19,7 +23,7 @@
                             <img class="img-thumbnail" width="50px"
                                  src="{{ book.thumbnail }}">
                         </div>
-                        <div class="col-lg-2 my-auto">
+                        <div class="col-lg-4 my-auto">
                             {% for author in book.author.all %}
                                 <h5 class="card-subtitle">{{ author }}</h5>
                             {% endfor %}
@@ -33,7 +37,7 @@
                             <span><b>ISBN-10:</b> {{ book.isbn.isbn10 }}</span>
                             <span><b>ISBN-13:</b> {{ book.isbn.isbn13 }}</span>
                         </div>
-                        <div class="offset-2 col-lg-1">
+                        <div class=" col-lg-1">
                             <button class="btn btn-sm btn-warning shadow">Edit</button>
                         </div>
                     </div>
