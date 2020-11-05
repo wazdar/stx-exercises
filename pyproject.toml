@@ -32,6 +32,3 @@ good-names="_,i,j,k,e,qs,pk,setUp,tearDown,maxDiff,default_app_config"
 [tool.black]
 line-length = 88
 include = '\.pyi?$'
-
-[hooks]
-precommit.runtests = python manage.py test
