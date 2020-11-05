@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 from .models import Book
 
 
-class BookForm(forms.ModelForm):
+class BookAddForm(forms.ModelForm):
     author = forms.CharField(
         label="Author",
         max_length=128,
@@ -50,6 +50,14 @@ class BookForm(forms.ModelForm):
         """
         if not isbnlib.is_isbn13(self.data["isbn13"]):
             raise ValidationError("ISBN-13 is not valid!")
+        return True
+
+    def clean_page_count(self):
+        """
+        Function to validate page_count
+        """
+        if int(self.data["page_count"]) <= 0:
+            raise ValidationError("Page count must be greater than 0")
         return True
 
     def is_valid(self):

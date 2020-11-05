@@ -1,8 +1,9 @@
+{% load books_pagination %}
 {% if is_paginated %}
     <ul class="pagination">
         {% if page_obj.has_previous %}
             <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
+                <a class="page-link" href="{{ request.GET|get_book_url }}">&laquo;</a>
             </li>
         {% else %}
             <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
@@ -14,13 +15,13 @@
                 </li>
             {% else %}
                 <li class="page-item">
-                    <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                    <a class="page-link" href="{{ request.GET|get_book_url:i }}">{{ i }}</a>
                 </li>
             {% endif %}
         {% endfor %}
         {% if page_obj.has_next %}
             <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+                <a class="page-link" href="{{ request.GET|get_book_url }}">&raquo;</a>
             </li>
         {% else %}
             <li class="page-item disabled">
