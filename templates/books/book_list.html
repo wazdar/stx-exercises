@@ -72,7 +72,9 @@
                             <span><b>ISBN-13:</b> {{ book.isbn13 }}</span>
                         </div>
                         <div class=" col-lg-1">
-                            <button class="btn btn-sm btn-warning shadow">Edit</button>
+                            <a href="{% url 'book-edit' book.id %}">
+                                <button class="btn btn-sm btn-warning shadow">Edit</button>
+                            </a>
                         </div>
                     </div>
                 </div>

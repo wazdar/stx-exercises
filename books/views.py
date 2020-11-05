@@ -12,7 +12,7 @@ from books.models import Author
 from books.models import Book
 
 
-class BooksList(ListView):
+class BooksListView(ListView):
     model = Book
     context_object_name = "books"
     template_name = "books/book_list.html"
@@ -40,7 +40,7 @@ class BooksList(ListView):
         return books
 
 
-class BookAdd(CreateView):
+class BookAddView(CreateView):
     model = Book
     form_class = BookAddForm
     template_name = "books/book_form.html"
@@ -93,4 +93,32 @@ class BookEditView(UpdateView):
         return initial
 
     def form_valid(self, form):
-        return BookAdd.form_valid(self, form)
+        try:
+            book = self.object
+            data = form.data
+            book.title = data.get("title")
+            book.publication_date = datetime.strptime(
+                data.get("publication_date"), "%Y-%m-%d"
+            )
+            book.page_count = data.get("page_count")
+            book.isbn10 = data.get("isbn10")
+            book.isbn13 = data.get("isbn13")
+            book.lang = data.get("lang")
+            book.thumbnail = data.get("thumbnail")
+            book.save()
+            for auth in data.get("author").split(","):
+                author, author_created = Author.objects.get_or_create(
+                    name=auth.lstrip(" ")
+                )
+                book.author.add(author)
+            return redirect(reverse("book-list"))
+        except Exception as e:
+            print(e)
+            return render(
+                self.request,
+                self.template_name,
+                {
+                    "error": "Internal Error. Check data and try again.",
+                    "form": self.form_class,
+                },
+            )
