@@ -3,6 +3,7 @@ from datetime import datetime
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.urls import reverse
+from django.views import View
 from django.views.generic import CreateView
 from django.views.generic import ListView
 from django.views.generic import UpdateView
@@ -10,6 +11,7 @@ from django.views.generic import UpdateView
 from books.forms import BookAddForm
 from books.models import Author
 from books.models import Book
+from books.utility import ApiRequest
 
 
 class BooksListView(ListView):
@@ -19,6 +21,10 @@ class BooksListView(ListView):
     paginate_by = 10
 
     def get_queryset(self):
+        """
+        Filtering list of Books
+        :return:
+        """
         books = Book.objects.all()
         query = self.request.GET
         if query != {}:
@@ -47,6 +53,11 @@ class BookAddView(CreateView):
     success_url = "book-list"
 
     def form_valid(self, form):
+        """
+        Create a new Book.
+        :param form:
+        :return:
+        """
         try:
             book = Book.objects.create(
                 title=form.data.get("title"),
@@ -93,6 +104,11 @@ class BookEditView(UpdateView):
         return initial
 
     def form_valid(self, form):
+        """
+        Return update Book, and redirect to list
+        :param form:
+        :return:
+        """
         try:
             book = self.object
             data = form.data
@@ -120,5 +136,69 @@ class BookEditView(UpdateView):
                 {
                     "error": "Internal Error. Check data and try again.",
                     "form": self.form_class,
+                },
+            )
+
+
+class BookImportView(View):
+    def get(self, request):
+        """
+        Form to importing data from google api.
+        :param request:
+        :return:
+        """
+        return render(request, "books/book_import.html")
+
+    def post(self, request):
+        """
+        Importing data from google API
+        :param request:
+        :return:
+        """
+        query = request.POST.dict()
+        api_request = ApiRequest(
+            title=query["title"],
+            author=query["author"],
+            publisher=query["publisher"],
+            subject=query["subject"],
+            isbn=query["isbn"],
+            lccn=query["lccn"],
+            oclc=query["oclc"],
+        )
+        try:
+            for data in api_request.get_data():
+                try:
+                    isbn10 = [a for a in data["isbn"] if a["type"] == "ISBN_10"][0][
+                        "identifier"
+                    ]
+                except IndexError:
+                    isbn10 = None
+                try:
+                    isbn13 = [a for a in data["isbn"] if a["type"] == "ISBN_13"][0][
+                        "identifier"
+                    ]
+                except IndexError:
+                    isbn13 = None
+
+                book, book_created = Book.objects.update_or_create(
+                    title=data["title"],
+                    publication_date=data["publication_date"],
+                    isbn10=isbn10,
+                    isbn13=isbn13,
+                    page_count=data["page_count"],
+                    lang=data["lang"],
+                    thumbnail=data["thumbnail"],
+                )
+                for auth in data["authors"]:
+                    author, author_created = Author.objects.get_or_create(name=auth)
+                    book.author.add(author)
+            return redirect(reverse("book-list"))
+        except Exception as e:
+            print(e)
+            return render(
+                request,
+                "books/book_import.html",
+                {
+                    "error": "Internal Error. Check data and try again.",
                 },
             )

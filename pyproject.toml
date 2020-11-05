@@ -16,7 +16,9 @@ disable="""
     unused-variable,
     no-member,
     broad-except,
-    invalid-sequence-index
+    invalid-sequence-index,
+    too-many-instance-attributes,
+    too-many-arguments
 """
 
 

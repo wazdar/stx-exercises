@@ -4,8 +4,8 @@ from django.db import models
 class Book(models.Model):
     title = models.CharField(max_length=254)
     author = models.ManyToManyField("Author")
-    publication_date = models.DateField()
-    page_count = models.IntegerField()
+    publication_date = models.CharField(max_length=10)
+    page_count = models.IntegerField(null=True, default=None)
     lang = models.CharField(max_length=2)
     thumbnail = models.URLField()
     isbn10 = models.CharField(max_length=10, default=None, null=True)

@@ -4,12 +4,15 @@
 {% block content %}
     <div class="card m-2s border-0">
         <div class="card-body">
-            <div class="col-12">
+            <div class="col-12 ">
                 <a href="{% url 'book-add' %}">
                     <button
                             class="btn btn-lg btn-success float-right shadow"
                     >ADD
                     </button>
+                </a>
+                <a href="{% url 'book-import' %}">
+                    <button class="btn btn-lg btn-dark float-right mr-2">IMPORT</button>
                 </a>
                 <button class="btn btn-lg btn-primary float-left" type="button" data-toggle="collapse"
                         data-target="#search"
