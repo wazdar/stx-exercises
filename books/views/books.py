@@ -50,7 +50,7 @@ class BookAddView(CreateView):
     model = Book
     form_class = BookAddForm
     template_name = "books/book_form.html"
-    success_url = "book-list"
+    success_url = "books"
 
     def form_valid(self, form):
         """
@@ -75,7 +75,7 @@ class BookAddView(CreateView):
                     name=auth.lstrip(" ")
                 )
                 book.author.add(author)
-            return redirect(reverse("book-list"))
+            return redirect(reverse("books"))
         except Exception as e:
             print(e)
             return render(
@@ -127,7 +127,7 @@ class BookEditView(UpdateView):
                     name=auth.lstrip(" ")
                 )
                 book.author.add(author)
-            return redirect(reverse("book-list"))
+            return redirect(reverse("books"))
         except Exception as e:
             print(e)
             return render(
@@ -156,14 +156,23 @@ class BookImportView(View):
         :return:
         """
         query = request.POST.dict()
+        if query == {}:
+            return render(
+                request,
+                "books/book_import.html",
+                {
+                    "error": "No POST data.",
+                },
+                status=400,
+            )
         api_request = ApiRequest(
-            title=query["title"],
-            author=query["author"],
-            publisher=query["publisher"],
-            subject=query["subject"],
-            isbn=query["isbn"],
-            lccn=query["lccn"],
-            oclc=query["oclc"],
+            title=query.get("title"),
+            author=query.get("author"),
+            publisher=query.get("publisher"),
+            subject=query.get("subject"),
+            isbn=query.get("isbn"),
+            lccn=query.get("lccn"),
+            oclc=query.get("oclc"),
         )
         try:
             for data in api_request.get_data():
@@ -192,7 +201,7 @@ class BookImportView(View):
                 for auth in data["authors"]:
                     author, author_created = Author.objects.get_or_create(name=auth)
                     book.author.add(author)
-            return redirect(reverse("book-list"))
+            return redirect(reverse("books"))
         except Exception as e:
             print(e)
             return render(

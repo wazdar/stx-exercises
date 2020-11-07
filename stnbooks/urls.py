@@ -29,7 +29,7 @@ router.register(r"api", ApiBooksList)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", BooksListView.as_view(), name="book-list"),
+    path("", BooksListView.as_view(), name="books"),
     path("add", BookAddView.as_view(), name="book-add"),
     path("edit/<int:pk>", BookEditView.as_view(), name="book-edit"),
     path("import", BookImportView.as_view(), name="book-import"),

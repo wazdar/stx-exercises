@@ -9,7 +9,7 @@ from books.models import Book
 class TestViews(TestCase):
     def setUp(self):
         self.client = Client()
-        self.list_url = reverse("book-list")
+        self.list_url = reverse("books")
         self.add_url = reverse("book-add")
         self.book = Book.objects.create(
             title="TestCase",

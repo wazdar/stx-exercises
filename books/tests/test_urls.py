@@ -10,7 +10,7 @@ from books.views import BooksListView
 
 class TestUrls(SimpleTestCase):
     def test_book_list_resolves(self):
-        url = reverse("book-list")
+        url = reverse("books")
         self.assertEquals(resolve(url).func.view_class, BooksListView)
 
     def test_book_add_resolves(self):
