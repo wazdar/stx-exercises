@@ -37,8 +37,8 @@ class BooksListView(ListView):
                     books = books.filter(lang__contains=query["lang"])
                 if query["date_start"] != "":
                     books = books.filter(publication_date__gte=query["date_start"])
-                    if query - ["date_end"] != "":
-                        books = books.filter(publication_date__lte=query["date_end"])
+                if query - ["date_end"] != "":
+                    books = books.filter(publication_date__lte=query["date_end"])
 
             except Exception as e:
                 print(e)
