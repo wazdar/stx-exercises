@@ -10,15 +10,15 @@ class TestGeneratePaginationUrl(TestCase):
 
         result = get_book_url(test_data)
 
-        self.assertRaises(Exception, result)
+        self.assertEqual(None, result)
 
     def test_pagination_link_only_page_number(self):
         test_data = QueryDict("")
 
-        self.assertEqual(get_book_url(test_data, 1), "?page=1")
-        self.assertEqual(get_book_url(test_data, 2), "?page=2")
+        self.assertEqual(get_book_url(test_data, 1), "?page=1&")
+        self.assertEqual(get_book_url(test_data, 2), "?page=2&")
 
-        self.assertRaises(Exception, get_book_url(test_data, 0))
+        self.assertEqual(None, get_book_url(test_data, 0))
 
     def test_pagination_link_with_data(self):
         test_data = QueryDict("", mutable=True)
@@ -29,4 +29,13 @@ class TestGeneratePaginationUrl(TestCase):
 
         result = get_book_url(test_data)
 
-        self.assertEqual(result, should_be)
+        self.assertEqual(should_be, result)
+
+    def test_pagination_link_with_data_and_page(self):
+        test_data = QueryDict("", mutable=True)
+        test_data.update({"title": "Test Case", "author": "Test Author", "lang": "PL"})
+        should_be = "?page=1&title=Test Case&author=Test Author&lang=PL"
+
+        result = get_book_url(test_data, 1)
+
+        self.assertEqual(should_be, result)

@@ -4,7 +4,11 @@
 {% block content %}
     <div class="card m-2s border-0">
         <div class="card-body">
-            <div class="col-12 ">
+            <p>
+                <button class="btn btn-primary float-left" type="button" data-toggle="collapse" data-target="#search"
+                        aria-expanded="false" aria-controls="search">
+                    SEARCH
+                </button>
                 <a href="{% url 'book-add' %}">
                     <button
                             class="btn btn-lg btn-success float-right shadow"
@@ -14,36 +18,33 @@
                 <a href="{% url 'book-import' %}">
                     <button class="btn btn-lg btn-dark float-right mr-2">IMPORT</button>
                 </a>
-                <button class="btn btn-lg btn-primary float-left" type="button" data-toggle="collapse"
-                        data-target="#search"
-                        aria-expanded="false" aria-controls="search">
-                    SEARCH
-                </button>
-            </div>
-
-            <div class="collapse col-12" id="search">
+            </p>
+            <div class="collapse col-12 mt-5" id="search">
                 <div class="card card-body col-12">
-                    <form class="form-inline" method="get">
-                        <div class="form-group mb-2">
-                            <input type="text" class="form-control" id="title" name="title" placeholder="Title">
-                        </div>
-                        <div class="form-group mb-2">
-                            <input type="text" class="form-control" id="author" name="author" placeholder="Author">
-                        </div>
-                        <div class="form-group mb-2">
-                            <input type="text" class="form-control" id="lang" name="lang" placeholder="Lang"
-                                   maxlength="2">
-                        </div>
-                        <div class="form-group mb-2">
-                            <input type="date" class="form-control" id="date_start" name="date_start"
-                                   placeholder="data_start">
-                        </div>
-                        <div class="form-group mb-2">
-                            <input type="date" class="form-control" id="date_end" name="date_end"
-                                   placeholder="data_end">
-                        </div>
-                        <button type="submit" class="btn btn-outline-primary mb-2">Go</button>
-                    </form>
+                    <div>
+                        <form class="form-inline" method="get">
+                            <div class="form-group mb-2">
+                                <input type="text" class="form-control" id="title" name="title" placeholder="Title">
+                            </div>
+                            <div class="form-group mb-2">
+                                <input type="text" class="form-control" id="author" name="author" placeholder="Author">
+                            </div>
+                            <div class="form-group mb-2">
+                                <input type="text" class="form-control" id="lang" name="lang" placeholder="Lang"
+                                       maxlength="2">
+                            </div>
+                            <div class="form-group mb-2">
+                                <input type="date" class="form-control" id="date_start" name="date_start"
+                                       placeholder="data_start">
+                            </div>
+                            <div class="form-group mb-2">
+                                <input type="date" class="form-control" id="date_end" name="date_end"
+                                       placeholder="data_end">
+                            </div>
+                            <button type="submit" class="btn btn-outline-primary mb-2">Go</button>
+                        </form>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -68,7 +69,7 @@
                         <div class="col-lg-3 my-auto d-flex flex-column">
                             <span><b>Lang:</b> {{ book.lang }}</span>
                             <span><b>Page Count:</b> {{ book.page_count }}</span>
-                            <span><b>Publication date:</b> {{ book.publication_date|date:"M d, Y" }}</span>
+                            <span><b>Publication date:</b> {{ book.publication_date }}</span>
                         </div>
                         <div class="col-lg-3 my-auto d-flex flex-column ">
                             <span><b>ISBN-10:</b> {{ book.isbn10 }}</span>

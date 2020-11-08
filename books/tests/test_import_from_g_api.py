@@ -26,4 +26,4 @@ class TestImportFromGAPI(TestCase):
         self.assertEqual(response.status_code, 302)
 
         books = Book.objects.filter(title__icontains="war")
-        self.assertEqual(len(books), 7)
+        self.assertEqual(len(books), 6)

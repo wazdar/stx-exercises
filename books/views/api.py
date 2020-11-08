@@ -19,11 +19,7 @@ class BookFilter(filters.FilterSet):
 
     class Meta:
         model = Book
-        fields = [
-            "title",
-            "author__name",
-            "lang",
-        ]
+        fields = ["title", "author", "lang", "publication_date"]
 
 
 class ApiBooksList(viewsets.ModelViewSet):

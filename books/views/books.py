@@ -30,14 +30,14 @@ class BooksListView(ListView):
         if query != {}:
             try:
                 if query["title"] != "":
-                    books = books.filter(title__icontains=query["title"])
+                    books = books.filter(title__icontains=query.get("title"))
                 if query["author"] != "":
-                    books = books.filter(author__name__contains=query["author"])
+                    books = books.filter(author__name__icontains=query["author"])
                 if query["lang"] != "":
-                    books = books.filter(lang__contains=query["lang"])
+                    books = books.filter(lang__icontains=query["lang"])
                 if query["date_start"] != "":
                     books = books.filter(publication_date__gte=query["date_start"])
-                if query - ["date_end"] != "":
+                if query["date_end"] != "":
                     books = books.filter(publication_date__lte=query["date_end"])
 
             except Exception as e:
@@ -191,7 +191,7 @@ class BookImportView(View):
 
                 book, book_created = Book.objects.update_or_create(
                     title=data["title"],
-                    publication_date=data["publication_date"],
+                    publication_date=data["publication_date"][:10],
                     isbn10=isbn10,
                     isbn13=isbn13,
                     page_count=data["page_count"],
