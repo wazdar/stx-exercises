@@ -10,10 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
-import sys
 from pathlib import Path
 
 import dotenv
+
+from books import utility
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -30,13 +31,15 @@ if os.path.isfile(dotenv_file):
 try:
     SECRET_KEY = os.environ["SECRET_KEY"]
     DEBUG = os.environ["DEBUG"]
-except KeyError as e:
-    print(f"Check you .env file.{e} not found.")
-    sys.exit()
+except KeyError:
+    path_env = os.path.join(BASE_DIR, ".env")
+    utility.generate_secret_key(path_env)
+    utility.generate_debug_mode(path_env)
+    dotenv.load_dotenv(path_env)
+    SECRET_KEY = os.environ["SECRET_KEY"]
+    print("New .env was generated! ")
 
-
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 

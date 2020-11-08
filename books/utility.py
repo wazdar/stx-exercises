@@ -1,4 +1,5 @@
 import requests
+from django.utils.crypto import get_random_string
 
 
 class ApiRequest:
@@ -93,3 +94,28 @@ class ApiRequest:
             except Exception as e:
                 print(e)
         return data
+
+
+def generate_secret_key(env_file_name):
+    """
+    Create secret_key and write to .env file.
+    :param env_file_name:
+    :return:
+    """
+    env_file = open(env_file_name, "w+")
+    chars = "abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)"
+    generated_secret_key = get_random_string(50, chars)
+    env_file.write(f"SECRET_KEY = '{generated_secret_key}'\n")
+    env_file.close()
+
+
+def generate_debug_mode(env_file_name, debug_mode=False):
+    """
+    Add to .env file debug mode settings.
+    :param env_file_name:
+    :param debug_mode:
+    :return:
+    """
+    env_file = open(env_file_name, "a")
+    env_file.write(f"DEBUG = {debug_mode}\n")
+    env_file.close()
